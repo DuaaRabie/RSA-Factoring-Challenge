@@ -16,9 +16,15 @@ def rho_fun(n):
     return d
 
 def checksmall(n1, n2, number):
-    dif1 = abs(n1 - (number - n1))
-    dif2 = abs(n2 - (number - n2))
-    return min(n1, n2)
+    dif1 = abs(len(str(n1)) - len(str(number - n1)))
+    dif2 = abs(len(str(n2)) - len(str(number - n2)))
+    dif = min(dif2, dif1)
+    if dif1 == dif2:
+        return min(n1, n2)
+    if dif == dif1:
+        return n1
+    else:
+        return n2
 
 if len(sys.argv) != 2:
     print("Usage: factors <file>")
