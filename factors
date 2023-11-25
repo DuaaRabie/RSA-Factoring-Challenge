@@ -24,7 +24,7 @@ try:
     with open(sys.argv[1], 'r') as file:
         for line in file:
             number = int(line)
-            n1, n2, n3 = number, number, number
+            n1, n2, n3 = number, 0, number
             check = 0
             for i in range(2, int(sqrt(sqrt(number))) + 1):
                 if number % i == 0:
@@ -39,7 +39,7 @@ try:
             n3 = rho_fun(number)
             if n3 == 0:
                 n3 = number
-            n = checkmin(n1, n2, n3)
+            n = checkmin(n1, number - n2, n3)
             if n > number // n:
                 print("{}={}*{}".format(int(number),int(n), int(number//n)))
             else:
