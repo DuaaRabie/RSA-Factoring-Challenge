@@ -4,27 +4,18 @@ import random
 from math import sqrt
 from math import gcd
 
+
 def rho_fun(n):
     if n % 2 == 0:
         return 2
-    x = 2; y = 2; d = 1
-    f = lambda x: (x**2 + 1) % n
+    x, y, d = 2, 2, 1
+    f = (lambda x: (x**2 + 1) % n)
     while d == 1:
         x = f(x)
         y = f(f(y))
         d = gcd(abs(x-y), n)
     return d
 
-def checksmall(n1, n2, number):
-    dif1 = abs(len(str(n1)) - len(str(number - n1)))
-    dif2 = abs(len(str(n2)) - len(str(number - n2)))
-    dif = min(dif2, dif1)
-    if dif1 == dif2:
-        return min(n1, n2)
-    elif dif == dif1:
-        return n1
-    elif dif == dif2:
-        return n2
 
 if len(sys.argv) != 2:
     print("Usage: factors <file>")
@@ -33,16 +24,8 @@ try:
     with open(sys.argv[1], 'r') as file:
         for line in file:
             number = int(line)
-            check = 0
-            '''
-            for i in range(2, int(sqrt(sqrt(number))) + 1):
-                    if number % i == 0:
-                        print("{}={}*{}".format(int(number), int(number//i), int(i)))
-                        check = 1
-                        break
-            '''
-            if check == 0:
-                print("{}={}*{}".format(number, number // rho_fun(number), rho_fun(number)))
+            n = rho_fun(number)
+            print("{}={}*{}".format(number, number // n, n))
 except IOError:
     print("Can't read the file")
     sys.exit(1)
