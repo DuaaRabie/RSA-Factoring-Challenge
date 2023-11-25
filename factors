@@ -15,6 +15,11 @@ def rho_fun(n):
         d = gcd(abs(x-y), n)
     return d
 
+def checksmall(n1, n2, number):
+    dif1 = abs(n1 - (number - n1))
+    dif2 = abs(n2 - (number - n2))
+    return min(n1, n2)
+
 if len(sys.argv) != 2:
     print("Usage: factors <file>")
     sys.exit(1)
@@ -22,7 +27,15 @@ try:
     with open(sys.argv[1], 'r') as file:
         for line in file:
             number = int(line)
-            print("{}={}*{}".format(number, number // rho_fun(number), rho_fun(number)))
+            n1, n2 = number, number 
+            for i in range(2, int(sqrt(sqrt(number))) + 1):
+                    if number % i == 0:
+                        n1 = i
+                        break
+            n2 = rho_fun(number)
+            n = checksmall(n1, n2, number)
+            print("{}={}*{}".format(int(number), int(number//n), int(n)))
+            #print("{}={}*{}".format(number, number // rho_fun(number), rho_fun(number)))
 except IOError:
     print("Can't read the file")
     sys.exit(1)
