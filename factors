@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import sys
+import random
 from math import sqrt
 from math import gcd
 
@@ -14,9 +15,33 @@ def rho_fun(n):
         d = gcd(abs(x-y), n)
     return d
 
-def checkmin(n1, n2, n3):
-    return min(n1, n2, n3)
-    
+def modular_pow(base, exponent, modulus):
+    result = 1
+    while exponent > 0:
+        if exponent & 1:
+            result = (result * base) % modulus
+        exponent = exponent >> 1
+        base = (base * base) % modulus
+    return result
+
+def pollard_rho(n):
+    if n == 1:
+        return n
+    if n % 2 == 0:
+        return 2
+    x = (random.randint(0, 2) % (n - 2))
+    y = x
+    c = (random.randint(0, 1) % (n - 1))
+    d = 1
+    while d == 1:
+        x = (modular_pow(x, 2, n) + c + n) % n
+        y = (modular_pow(y, 2, n) + c + n) % n
+        y = (modular_pow(y, 2, n) + c + n) % n
+        d = gcd(abs(x - y), n)
+        if d == n:
+            return pollard_rho(n)
+    return d
+
 if len(sys.argv) != 2:
     print("Usage: factors <file>")
     sys.exit(1)
@@ -24,27 +49,10 @@ try:
     with open(sys.argv[1], 'r') as file:
         for line in file:
             number = int(line)
-            n1, n2, n3 = number, 0, number
             check = 0
-            for i in range(2, int(sqrt(sqrt(number))) + 1):
-                if number % i == 0:
-                    #print("{}={}*{}".format(int(number), int(number//i), int(i)))
-                    n1 = i
-                    break
-            for i in range(number - 1, int(number - int(sqrt(sqrt(number)))) + 1, -1):
-                    if number % i == 0:
-                        #print("{}={}*{}".format(int(number),int(i), int(number//i)))
-                        n2 = i
-                        break
-            n3 = rho_fun(number)
-            if n3 == 0:
-                n3 = number
-            n = checkmin(n1, number - n2, n3)
-            if n > number // n:
-                print("{}={}*{}".format(int(number),int(n), int(number//n)))
-            else:
-                print("{}={}*{}".format(int(number), int(number//n), int(n)))
-            #print("{}={}*{}".format(number, number // rho_fun(number), rho_fun(number)))
+            if check == 0:
+                #print("{}={}*{}".format(number, number // rho_fun(number), rho_fun(number)))
+                print("{}={}*{}".format(number, number // pollard_rho(number), pollard_rho(number)))
 except IOError:
     print("Can't read the file")
     sys.exit(1)
