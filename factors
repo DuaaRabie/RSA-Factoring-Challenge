@@ -25,7 +25,10 @@ try:
         for line in file:
             number = int(line)
             n = rho_fun(number)
-            print("{}={}*{}".format(number, number // n, n))
+            if n < number // n:
+                print("{}={}*{}".format(number, number // n, n))
+            else:
+                print("{}={}*{}".format(number, n, number // n))
 except IOError:
     print("Can't read the file")
     sys.exit(1)
