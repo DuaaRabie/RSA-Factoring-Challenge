@@ -22,17 +22,19 @@ try:
         for line in file:
             number = int(line)
             check = 0
+            '''
             for i in range(2, int(sqrt(sqrt(number))) + 1):
                 if number % i == 0:
                     print("{}={}*{}".format(int(number), int(number//i), int(i)))
                     check = 1
                     break
             if check == 0:
-                for i in range(number - 1, int(number - int(sqrt(sqrt(number)))) + 1, -1):
+                for i in range(number - 1, int(number - int(sqrt(number))) + 1, -1):
                     if number % i == 0:
                         print("{}={}*{}".format(int(number),int(i), int(number//i)))
                         check = 1
                         break
+                    '''
             if check == 0:
                 print("{}={}*{}".format(number, number // rho_fun(number), rho_fun(number)))
 except IOError:
