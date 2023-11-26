@@ -10,11 +10,26 @@ def rho_fun(n):
         return 2
     x, y, d = 2, 2, 1
     f = (lambda x: (x**2 + 1) % n)
-    while d == 1:
+    while d == 1 and not is_prime(d):
         x = f(x)
         y = f(f(y))
         d = gcd(abs(x-y), n)
     return d
+
+
+def is_prime(n):
+   if n <= 1:
+       return False
+   if n <= 3:
+       return True
+   if n % 2 == 0 or n % 3 == 0:
+       return False
+   i = 5
+   while i * i <= n:
+       if n % i == 0 or n % (i + 2) == 0:
+           return False
+       i += 6
+   return True
 
 
 if len(sys.argv) != 2:
